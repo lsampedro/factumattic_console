@@ -49,7 +49,9 @@ Estos son los datos de Firebase: 
   messagingSenderId: "1094149228806",
   appId: "1:1094149228806:web:ac36eb46e3e9753395f687"
 
-Las reglas son las siguientes y no se deberían modificar a no ser que fuera necesario porque se utilizan en otras apps, como la app móvil u otra app de escritorio y hay que tener cuidado con lo que se cambia:  rules_version = '2';
+Las reglas son las siguientes y no se deberían modificar a no ser que fuera necesario porque se utilizan en otras apps, como la app móvil u otra app de escritorio y hay que tener cuidado con lo que se cambia:  
+
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // Función auxiliar para verificar si el usuario está autenticado
