@@ -34,4 +34,5 @@ export interface Invoice {
   "Detalles de Pago": string;
   file_id: string;
   userId?: string;
+  date: string;
 }

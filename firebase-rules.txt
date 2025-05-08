@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Función auxiliar para verificar si el usuario está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Función auxiliar para verificar si el documento pertenece al usuario actual
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Función auxiliar para verificar si el usuario es admin
+    function isAdmin() {
+      return isAuthenticated() && 
+        request.auth.token.email == 'info@virtualpoint.es';
+    }
+
+    // Reglas para la colección de usuarios
+    match /users/{document} {
+      allow get: if isAuthenticated();
+      
+      allow list: if isAuthenticated() && (
+        resource.data.email == request.auth.token.email ||
+        isAdmin()
+      );
+
+      allow create: if isAuthenticated() && (
+        request.resource.data.email == request.auth.token.email ||
+        isAdmin()
+      );
+      
+      allow update: if isAuthenticated() && (
+        resource.data.email == request.auth.token.email ||
+        isAdmin()
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    // Reglas para la colección de facturas
+    match /invoices/{invoiceId} {
+      allow read: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      // Permitir borrado solo si el usuario es propietario de la factura
+      allow delete: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+    }
+  }
+}

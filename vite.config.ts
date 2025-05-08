@@ -3,15 +3,12 @@ import react from '@vitejs/plugin-react-swc'
 
 export default defineConfig({
   plugins: [
-    react({
-      fastRefresh: false // Disable fast refresh temporarily to reduce complexity
-    })
+    react()
   ],
   server: {
     historyApiFallback: true,
-    force: true, // Force the server to ignore the cache
     hmr: {
-      overlay: false // Disable the HMR overlay to reduce overhead
+      overlay: false
     }
   },
   esbuild: {
@@ -19,8 +16,8 @@ export default defineConfig({
     jsxFragment: 'React.Fragment',
     target: 'es2020',
     logLevel: 'info',
-    treeShaking: false, // Disable tree shaking in development
-    minify: false, // Disable minification in development
+    treeShaking: true,
+    minify: false,
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     },
@@ -28,7 +25,7 @@ export default defineConfig({
       'dynamic-import': true,
       'import-meta': true
     },
-    keepNames: true // Preserve function and class names
+    keepNames: true
   },
   build: {
     rollupOptions: {
@@ -38,7 +35,7 @@ export default defineConfig({
       }
     },
     target: 'es2020',
-    minify: false, // Disable minification during build
+    minify: false,
     sourcemap: true
   }
 })

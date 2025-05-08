@@ -3,13 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { 
   Container, 
   Box, 
-  Typography, 
   TextField, 
   Button, 
   Alert,
-  Paper
+  Paper,
+  styled
 } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
+
+const Logo = styled('img')({
+  width: '200px',
+  marginBottom: '2rem',
+});
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -54,9 +59,10 @@ export default function Login() {
             width: '100%',
           }}
         >
-          <Typography component="h1" variant="h5">
-            Factumattic
-          </Typography>
+          <Logo
+            src="/logo.png"
+            alt="Factumattic Logo"
+          />
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
             <TextField
